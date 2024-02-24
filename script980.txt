@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+echo "Ingresa el nombre del archivo"
+exit 1
+fi
+
+archivo=$1
+
+if [ ! -f "$archivo" ]; then
+echo "No se encontro el archivo"
+exit 1 
+fi
+
+echo "DATOS:"
+echo "Nombre: $(basename "$archivo")"
+echo "Tipo: $(file -b "$archivo")"
+echo "Fecha de creación: $(stat -c %x "$archivo")"
+echo "Tamaño en bytes: $(stat -c %s "$archivo") bytes"
+echo "Permisos:"
+echo "  Usuario($(stat -c %U "$archivo")): $(stat -c %A "$archivo" | cut -c 2-4)"
+echo "  Grupo($(stat -c %G "$archivo")): $(stat -c %A "$archivo" | cut -c 5-7)"
